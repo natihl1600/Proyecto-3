@@ -11,23 +11,23 @@ import tkinter.scrolledtext as tkscrolled
 
 
 
-def nombre():
+def nombre(): //detecta nombre seleccionado por el cliente
     return '--'
 
-def escuderia():
+def escuderia(): //detecta escudería seleccionada por el cliente
     return '--'
 
 #            _____________________
 #___________/Counter para batería
-counter = 100
+counter = 100 //valor en el que empieza la batería
 def counter_label(label):
     counter = 100
     def count():
         global counter
-        if counter > 0:
-            counter -= 1
+        if counter > 0: //llega a cero y no disminuye más
+            counter -= 1 // descuenta un uno porcierto 
             label.config(text = str(counter))
-            label.after(10000, count)
+            label.after(10000, count) // lo disminuye cada diez segundos
         else:
             counter += 0
     count()
@@ -41,16 +41,16 @@ def test_drive():
     global escuderia
     global nombre
 #            _____________________
-#___________/Crear ventana
+#___________/Crear ventana //se crea la pantalla
     ventana = Tk()
-    ventana.title("Test Drive")
-    ventana.minsize(800, 400)
-    ventana.resizable(width=NO, height=NO)
-    canvas = Canvas(ventana, width=800, height=400, bg='Pink')
-    canvas.place(x=0, y=0)
+    ventana.title("Test Drive") // título de la misma
+    ventana.minsize(800, 400) // tamaño de la pantalla
+    ventana.resizable(width=NO, height=NO) // no se puede ajustar su tamaño
+    canvas = Canvas(ventana, width=800, height=400, bg='Pink') // color de la pantalla principal
+    canvas.place(x=0, y=0) // ubicación
 
 #            _____________________
-#___________/Velocidad
+#___________/Velocidad // funcion para aumentar o disminuir la velocidad en la pantalla de test drive
     velocidades = 0
     def velocidad(velo):
         global Veloci
@@ -64,7 +64,7 @@ def test_drive():
 
         vel()
 #           ______________________
-#__________/Cargar imágenes
+#__________/Cargar imágenes // función para cargar imágenes a la pantalla del test drive
     def cargarimagen(carro):
         ruta= os.path.join('imagenes', carro) #ubicacion de a imagen (folder, nombre)
         imagen = PhotoImage(file=ruta)
@@ -80,7 +80,7 @@ def test_drive():
 
 
 #           ______________________
-#__________/Textos
+#__________/Textos // textos incluídos a la ventana del test drive
     Test_Drive = Label(canvas, text = "TEST DRIVE", font=('Times New Roman', 20), bg='red', fg='black')
     Test_Drive.place(x=585, y=10)
     NombrePiloto = Label(canvas, text = nombre(), font = ('Arial', 15), bg = 'black', fg = 'white')
@@ -99,13 +99,15 @@ def test_drive():
     bateria.place(x=20, y=110)
     #label.pack()
     counter_label(label)
+    //cuadros que reflejan la información enviada por el cliente en otras palabras da un status de cómo está la sitauación al mandar 
+    //mensajes al nodeMCU
     SentCarScrolledTxt = tkscrolled.ScrolledText(canvas, height=5, width=5)
     SentCarScrolledTxt.place(x=-400,y=200)
     RevCarScrolledTxt = tkscrolled.ScrolledText(canvas, height=5, width=5)
     RevCarScrolledTxt.place(x=-410,y=200)
 
 #           ______________________
-#__________/Funcion del NodeMCU
+#__________/Funcion del NodeMCU // funciones para recibir un mensaje y mandarlo al nodeMCU
     myCar = NodeMCU()
     myCar.start()
     
@@ -127,7 +129,7 @@ def test_drive():
             time.sleep(0.200)
     p = Thread(target=get_log)
     p.start()
-
+    //funciones específicas ya con su propio código para que el cliente solo tenga que estripar un botón y la función se ejecute
     def Circle(event):
         if myCar.send('circle' + ';'):
             myCar.send('circle' + ';')
@@ -214,6 +216,9 @@ def test_drive():
 
 #           ______________________
 #__________/Botones
+
+    //Botones relacionados con las funciones de comandos enseñados anteriormente la función de estos botones es que ya tienen el comando
+    //dentro de ellos por lo que con tan solo presionarlos ya se enviará el mensaje
 
     Btn_ConnectControl2 = Button(canvas,text='Circle',command=lambda:Circle(None),fg='black',bg='red', font=('Agency FB',15))
     Btn_ConnectControl2.place(x=10,y=10)
