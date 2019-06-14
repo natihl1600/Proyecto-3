@@ -1,3 +1,4 @@
+from prueba import *
 import tkinter
 import tkinter as tk
 from tkinter import *
@@ -10,23 +11,23 @@ import tkinter.scrolledtext as tkscrolled
 
 
 
-def nombre(): #detecta nombre seleccionado por el cliente
+def nombre(): #reconoce nombre del piloto a utilizar y brindada por el cliente
     return '--'
 
-def escuderia(): #detecta escudería seleccionada por el cliente
+def escuderia(): #reconoce nombre de la escudería a utilizar y brindada por el cliente
     return '--'
 
 #            _____________________
-#___________/Counter para batería
-counter = 100 #valor en el que empieza la batería
+#___________/Counter para batería #función para hacer referencia a la batería del carro
+counter = 100 #batería inicia en 100
 def counter_label(label):
     counter = 100
     def count():
         global counter
-        if counter > 0: #llega a cero y no disminuye más
-            counter -= 1 #descuenta un uno porcierto 
+        if counter > 0: #batería llega a 0 y no disminuye más
+            counter -= 1
             label.config(text = str(counter))
-            label.after(10000, count) #lo disminuye cada diez segundos
+            label.after(10000, count) #nivel de batería se disminuye cada 10 segundos
         else:
             counter += 0
     count()
@@ -34,22 +35,22 @@ def counter_label(label):
 
 #            _____________________
 #___________/Ventana Test
-def test_drive():
+def test_drive(): #llamo a las funciones que se hicieron antes para que tengan funcionalidad en esta función
     global Veloci
     global prueba
     global escuderia
     global nombre
 #            _____________________
-#___________/Crear ventana //se crea la pantalla
-    ventana = Tk()
-    ventana.title("Test Drive") #título de la misma
-    ventana.minsize(800, 400) #tamaño de la pantalla
-    ventana.resizable(width=NO, height=NO) #no se puede ajustar su tamaño
-    canvas = Canvas(ventana, width=800, height=400, bg='Pink') #color de la pantalla principal
-    canvas.place(x=0, y=0) #ubicación
+#___________/Crear ventana
+    ventana = Tk() #se crea ventana de Tk
+    ventana.title("Test Drive") #título de la ventana de TK
+    ventana.minsize(800, 400) #dimensiones
+    ventana.resizable(width=NO, height=NO) #dimensiones no ajustables
+    canvas = Canvas(ventana, width=800, height=400, bg='Pink') #fondo de la pantalla de canvas y creacion de canvas
+    canvas.place(x=0, y=0) #ubicación del canvas
 
 #            _____________________
-#___________/Velocidad // funcion para aumentar o disminuir la velocidad en la pantalla de test drive
+#___________/Velocidad ## función para aumentar o disminuir la velocidad en la pantalla del test drive
     velocidades = 0
     def velocidad(velo):
         global Veloci
@@ -63,7 +64,7 @@ def test_drive():
 
         vel()
 #           ______________________
-#__________/Cargar imágenes // función para cargar imágenes a la pantalla del test drive
+#__________/Cargar imágenes ## funcion para cargar las imagenes en la pantalla del canvas
     def cargarimagen(carro):
         ruta= os.path.join('imagenes', carro) #ubicacion de a imagen (folder, nombre)
         imagen = PhotoImage(file=ruta)
@@ -79,34 +80,35 @@ def test_drive():
 
 
 #           ______________________
-#__________/Textos // textos incluídos a la ventana del test drive
-    Test_Drive = Label(canvas, text = "TEST DRIVE", font=('Times New Roman', 20), bg='red', fg='black')
+#__________/Textos
+    Test_Drive = Label(canvas, text = "TEST DRIVE", font=('Times New Roman', 20), bg='red', fg='black') #texto agregado a la pantalla del canvas
     Test_Drive.place(x=585, y=10)
-    NombrePiloto = Label(canvas, text = nombre(), font = ('Arial', 15), bg = 'black', fg = 'white')
+    NombrePiloto = Label(canvas, text = nombre(), font = ('Arial', 15), bg = 'black', fg = 'white') #texto agregado a la pantalla del canvas
     NombrePiloto.place(x=585,y = 55)
-    NombreEscuderia = Label(canvas, text = escuderia(), font = ('Arial', 15), bg = 'black', fg = 'white')
+    NombreEscuderia = Label(canvas, text = escuderia(), font = ('Arial', 15), bg = 'black', fg = 'white') #texto agregado a la pantalla del canvas
     NombreEscuderia.place(x=625, y=95)
-    piloto = Label(canvas, text = 'Piloto:', font = ('Arial', 15), fg = 'black', bg = 'skyblue')
+    piloto = Label(canvas, text = 'Piloto:', font = ('Arial', 15), fg = 'black', bg = 'skyblue') #texto agregado a la pantalla del canvas
     piloto.place(x=500,y = 55)
-    escuderia = Label(canvas, text = 'Escudería:', font = ('Arial', 15), fg = 'black', bg = 'skyblue')
+    escuderia = Label(canvas, text = 'Escudería:', font = ('Arial', 15), fg = 'black', bg = 'skyblue') #texto agregado a la pantalla del canvas
     escuderia.place(x=500,y = 95)
-    label = Label(canvas, fg = 'black', font = ('Arial', 15), bg = 'skyblue')#.place(x=100, y=100)
+    label = Label(canvas, fg = 'black', font = ('Arial', 15), bg = 'skyblue')#.place(x=100, y=100) #texto agregado a la pantalla del canvas
     label.place(x=105, y=110)
-    velo = Label(canvas, fg = 'black', font = ('Arial', 15), bg = 'grey')
+    velo = Label(canvas, fg = 'black', font = ('Arial', 15), bg = 'grey') #texto agregado a la pantalla del canvas
     velo.place(x=375, y=177)
-    bateria = Label(canvas, text = 'Batería: ', font = ("Arial", 15), fg = 'black', bg = "skyblue")
+    bateria = Label(canvas, text = 'Batería: ', font = ("Arial", 15), fg = 'black', bg = "skyblue") #texto agregado a la pantalla del canvas
     bateria.place(x=20, y=110)
     #label.pack()
     counter_label(label)
-    #cuadros que reflejan la información enviada por el cliente en otras palabras da un status de cómo está la sitauación al mandar 
-    #mensajes al nodeMCU
+
+    #cuadros de texto que lo que enseñan es un estado de lo que está sucediendo mientras se envían señales al nodeMCU
+    #se escondieron de la pantalla del test drive por decisiones de la estética del test drive
     SentCarScrolledTxt = tkscrolled.ScrolledText(canvas, height=5, width=5)
     SentCarScrolledTxt.place(x=-400,y=200)
     RevCarScrolledTxt = tkscrolled.ScrolledText(canvas, height=5, width=5)
     RevCarScrolledTxt.place(x=-410,y=200)
 
 #           ______________________
-#__________/Funcion del NodeMCU // funciones para recibir un mensaje y mandarlo al nodeMCU
+#__________/Funcion del NodeMCU 
     myCar = NodeMCU()
     myCar.start()
     
@@ -128,7 +130,9 @@ def test_drive():
             time.sleep(0.200)
     p = Thread(target=get_log)
     p.start()
-    #funciones específicas ya con su propio código para que el cliente solo tenga que estripar un botón y la función se ejecute
+
+    #funciones agregadas para darle fluidez a la conexion entre el cliente con el carro
+    #cada función tiene un comando en específico del arduino
     def Circle(event):
         if myCar.send('circle' + ';'):
             myCar.send('circle' + ';')
@@ -216,8 +220,8 @@ def test_drive():
 #           ______________________
 #__________/Botones
 
-    #Botones relacionados con las funciones de comandos enseñados anteriormente la función de estos botones es que ya tienen el comando
-    #dentro de ellos por lo que con tan solo presionarlos ya se enviará el mensaje
+    #cada botón está ligado a las funciones creadas en la parte de arriba, su idea era darle una conexión test drive-cliente-carro  más rápida y segura
+    #y se evitan errores de sintaxis al escribir los comandos ya que ya están digitados por el programador.
 
     Btn_ConnectControl2 = Button(canvas,text='Circle',command=lambda:Circle(None),fg='black',bg='red', font=('Agency FB',15))
     Btn_ConnectControl2.place(x=10,y=10)
